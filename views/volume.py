@@ -59,6 +59,11 @@ def volume_page():
         )
     item_code = item_labels[selected_item]
     country = "all" if selected_country == "10개국 전체" else selected_country
+    selected_item_name = (
+        "자동차부품 전체"
+        if item_code == "all"
+        else next(name for code, name in ITEMS if code == item_code)
+    )
 
     # 2. 계산
     current, previous = aggregate(start, end, item_code, country)
@@ -96,53 +101,25 @@ def volume_page():
         delta_color="normal",
         border=True,
     )
-    st.caption(
-        f"달러 기준 · 수출액 {format_number(export_sum)} 백만 달러 · "
-        f"수출중량 {format_number(weight_sum)} 톤"
-    )
-
     # 4. 계산과 차트
-    st.subheader("부품별 수출액과 수출중량 증감률")
+    st.subheader("수출액과 수출중량 증감률")
     place = "10개국 전체" if country == "all" else country
-    st.caption(
-        f"{MONTHS[start]}–{MONTHS[end]} · {place} · " "수출액 증감률이 큰 부품부터"
-    )
-    rows = []
-    for item_data in ITEMS:
-        code = item_data[0]
-        name = item_data[1]
-        item_current, item_previous = aggregate(start, end, code, country)
-        item_metrics = calculate_export_metrics(item_current, item_previous)
-        rows.append(
+    st.caption(f"{MONTHS[start]}–{MONTHS[end]} · {place} · {selected_item_name}")
+    display_frame = pd.DataFrame(
+        [
             {
-                "부품": name,
-                "코드": code,
-                "수출액 증감률 (%)": item_metrics["export_growth"],
-                "수출중량 증감률 (%)": item_metrics["weight_growth"],
-                "kg당 금액 증감률 (%)": item_metrics["unit_growth"],
+                "부품": selected_item_name,
+                "코드": "전체" if item_code == "all" else item_code,
+                "수출액 (백만 달러)": export_sum,
+                "수출액 증감률 (%)": export_growth,
+                "수출중량 (톤)": weight_sum,
+                "수출중량 증감률 (%)": weight_growth,
+                "킬로당 금액 증감률 (%)": unit_growth,
             }
-        )
-
-    whole_current, whole_previous = aggregate(start, end, "all", country)
-    whole_metrics = calculate_export_metrics(whole_current, whole_previous)
-    total_row = {
-        "부품": "자동차부품 전체",
-        "코드": "전체",
-        "수출액 증감률 (%)": whole_metrics["export_growth"],
-        "수출중량 증감률 (%)": whole_metrics["weight_growth"],
-        "kg당 금액 증감률 (%)": whole_metrics["unit_growth"],
-    }
-    frame = pd.DataFrame([total_row] + rows)
-    part_rows = frame[frame["코드"] != "전체"].sort_values(
-        "수출액 증감률 (%)",
-        ascending=False,
-    )
-    ordered_frame = pd.concat(
-        [frame[frame["코드"] == "전체"], part_rows],
-        ignore_index=True,
+        ]
     )
     melted = pd.melt(
-        ordered_frame,
+        display_frame,
         id_vars=["부품", "코드"],
         value_vars=["수출액 증감률 (%)", "수출중량 증감률 (%)"],
         var_name="항목",
@@ -154,7 +131,6 @@ def volume_page():
             "수출중량 증감률 (%)": "수출중량",
         }
     )
-    st.caption("가운데 선 오른쪽 = 증가, 왼쪽 = 감소")
     zero_line = (
         alt.Chart(pd.DataFrame({"x": [0]})).mark_rule(color="#687583").encode(x="x:Q")
     )
@@ -164,7 +140,7 @@ def volume_page():
         .encode(
             y=alt.Y(
                 "부품:N",
-                sort=ordered_frame["부품"].tolist(),
+                sort=display_frame["부품"].tolist(),
                 title=None,
             ),
             x=alt.X("증감률:Q", title="증감률 (%)"),
@@ -187,11 +163,13 @@ def volume_page():
 
     # 5. 표
     st.dataframe(
-        ordered_frame.style.format(
+        display_frame.style.format(
             {
+                "수출액 (백만 달러)": lambda value: format_number(value, 1),
+                "수출중량 (톤)": lambda value: format_number(value, 1),
                 "수출액 증감률 (%)": format_percent_value,
                 "수출중량 증감률 (%)": format_percent_value,
-                "kg당 금액 증감률 (%)": format_percent_value,
+                "킬로당 금액 증감률 (%)": format_percent_value,
             },
             na_rep="—",
         ),
