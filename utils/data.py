@@ -24,7 +24,7 @@ def _query(sql, params=()):
         "user": os.environ.get("DB_USER") or secrets.get("user", "root"),
         "password": os.environ.get("DB_PASSWORD") or secrets.get("password"),
         "database": os.environ.get("DB_NAME") or secrets.get("database", "mysql_streamlit_app"),
-        "connection_timeout": 10,
+        "connection_timeout": 10
     }
     if not settings["password"]:
         st.error("프로젝트 루트의 .env에 DB_PASSWORD를 설정하세요.")
@@ -32,10 +32,11 @@ def _query(sql, params=()):
     try:
         conn = mysql.connector.connect(**settings)
         try:
-            with conn.cursor() as cursor:
-                cursor.execute(sql, params)
-                return pd.DataFrame(cursor.fetchall(), columns=[c[0] for c in cursor.description])
+            cursor = conn.cursor()
+            cursor.execute(sql, params)
+            return pd.DataFrame(cursor.fetchall(), columns=[c[0] for c in cursor.description])
         finally:
+            cursor.close()
             conn.close()
     except mysql.connector.Error:
         st.error("MySQL에 연결하거나 조회하지 못했습니다. .env 설정과 DB 적재 여부를 확인하세요.")
