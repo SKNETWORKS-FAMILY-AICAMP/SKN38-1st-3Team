@@ -4,13 +4,15 @@ import streamlit as st
 
 from utils.common import (
     aggregate,
-    filter_controls,
+    format_country,
+    period_filter_controls,
     format_number,
     format_signed_value,
     header,
     state,
 )
-from utils.constants import ITEMS, MONTHS
+from utils.constants import COUNTRIES, MONTHS
+from utils.parts_catalog import ITEMS
 
 def format_amount(value):
     return format_number(value, 1)
@@ -18,14 +20,22 @@ def format_amount(value):
 
 def parts_page():
     # 1. 필터
-    filters = filter_controls(use_country=True)
+    filters = period_filter_controls()
     start = filters["start"]
     end = filters["end"]
-    country = filters["country"]
-    header("02 부품·시장", "어느 부품의 무역수지가 나빠지거나 좋아졌나?")
+    header("02 부품·시장", "부품별 무역수지 변화")
+    (country_col,) = st.columns(1)
+    with country_col:
+        selected_country = st.selectbox(
+            "상대국",
+            ["10개국 전체"] + COUNTRIES,
+            format_func=format_country,
+            key="country",
+        )
+    country = "all" if selected_country == "10개국 전체" else selected_country
 
     # 2. 계산
-    unit = "백만 달러"
+    unit = "$M"
     rows = []
     for item_data in ITEMS:
         code = item_data[0]

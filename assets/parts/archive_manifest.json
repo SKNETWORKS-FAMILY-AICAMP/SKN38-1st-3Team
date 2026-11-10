@@ -1,0 +1,443 @@
+[
+  {
+    "hscd": "8708100000",
+    "label": "프런트 범퍼",
+    "path": "archive/8708100000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708100000 완충기와 그 부분품 프런트 범퍼.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708220000",
+    "label": "글라스 루프",
+    "path": "archive/8708220000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708220000 이 류의 소호주 제1호에서 규정한 전방 윈드스크린(윈드쉴드), 후방 창문과 그 밖의 창문 글라스 루프.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708400000",
+    "label": "기어박스 부분품 1",
+    "path": "archive/8708400000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708400000 기어박스와 그 부분품 기어박스 부분품 1.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708501000",
+    "label": "후륜 구동 모듈 1",
+    "path": "archive/8708501000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708501000 차동장치를 갖춘 구동 차축(변속장치를 갖추었는지에 상관없다)과 그 부분품 후륜 구동 모듈 1.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708700000",
+    "label": "알루미늄 휠",
+    "path": "archive/8708700000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708700000 로드 휠(road wheel)과 그 부분품ㆍ부속품 알루미늄 휠.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708800000",
+    "label": "리어 쇼크업소버",
+    "path": "archive/8708800000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708800000 서스펜션 시스템(suspension system)과 그 부분품[쇼크업소버(shock-absorber)를 포함한다] 리어 쇼크업소버.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708910000",
+    "label": "라디에이터",
+    "path": "archive/8708910000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708910000 방열기와 그 부분품 라디에이터.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708920000",
+    "label": "배기 머플러 부품",
+    "path": "archive/8708920000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708920000 소음기(머플러), 배기관, 그 부분품 배기 머플러 부품.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708930000",
+    "label": "클러치 드럼 어셈블리 1",
+    "path": "archive/8708930000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708930000 클러치와 그 부분품 클러치 드럼 어셈블리 1.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708940000",
+    "label": "스티어링 칼럼 및 스티어링 박스",
+    "path": "archive/8708940000_00.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708940000 운전대ㆍ스티어링칼럼(steering column)ㆍ운전박스와 그 부분품 스티어링 칼럼 및 스티어링 박스.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "충전구 도어",
+    "path": "archive/8708290000_01.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 충전구 도어 2.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "프런트 휠 가드",
+    "path": "archive/8708290000_02.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 프런트 휠 가드.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "센터 필러 내측 좌",
+    "path": "archive/8708290000_03.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 센터 필러 내측 좌.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "가니시",
+    "path": "archive/8708290000_04.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 가니시 2.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "러기지 로드 플로어",
+    "path": "archive/8708290000_05.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 러기지 로드 플로어 2.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "프런트 사이드 몰딩 좌",
+    "path": "archive/8708290000_06.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 프런트 사이드 몰딩 좌 2.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "후드",
+    "path": "archive/8708290000_07.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 후드.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "루프 보우",
+    "path": "archive/8708290000_08.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 루프 보우.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "시트 스트랩",
+    "path": "archive/8708290000_09.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 시트 스트랩.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "번호판 브래킷",
+    "path": "archive/8708290000_10.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 번호판 브래킷.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "안개등 베젤 커버",
+    "path": "archive/8708290000_11.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 안개등 베젤 커버.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "수소탱크 커버",
+    "path": "archive/8708290000_12.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 수소탱크 커버.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "사이드 패널 좌",
+    "path": "archive/8708290000_13.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 사이드 패널 좌.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "트렁크 리드 외측 패널",
+    "path": "archive/8708290000_14.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 트렁크 리드 외측 패널.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "쿼터 내측 상부 보강재 좌",
+    "path": "archive/8708290000_15.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 쿼터 내측 상부 보강재 좌.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "앞도어 패널 좌",
+    "path": "archive/8708290000_16.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 앞도어 패널 좌.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "루프 패널",
+    "path": "archive/8708290000_17.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 루프 패널.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "안전벨트 버클",
+    "path": "archive/8708290000_18.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 안전벨트 버클.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "프런트 필러 패널 좌",
+    "path": "archive/8708290000_19.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 프런트 필러 패널 좌.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "트렁크 및 주유구 열림 케이블",
+    "path": "archive/8708290000_20.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 트렁크 및 주유구 열림 케이블.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "안전벨트 스풀",
+    "path": "archive/8708290000_21.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 안전벨트 스풀.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "라디에이터 그릴 상부 커버",
+    "path": "archive/8708290000_22.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 라디에이터 그릴 상부 커버.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "슬라이딩 도어 외측 보강재",
+    "path": "archive/8708290000_23.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 슬라이딩 도어 외측 보강재.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "안전벨트 텅",
+    "path": "archive/8708290000_24.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 안전벨트 텅.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "앞도어 내측 패널 좌",
+    "path": "archive/8708290000_25.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 앞도어 내측 패널 좌.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708290000",
+    "label": "윈드 디플렉터",
+    "path": "archive/8708290000_26.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708290000 기타 윈드 디플렉터.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "브레이크 패드",
+    "path": "archive/8708309000_01.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 브레이크 패드.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "브레이크 어셈블리",
+    "path": "archive/8708309000_02.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 브레이크 어셈블리.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "브레이크 튜브",
+    "path": "archive/8708309000_03.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 브레이크 튜브.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "브레이크 드럼",
+    "path": "archive/8708309000_04.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 브레이크 드럼.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "마스터실린더 바디",
+    "path": "archive/8708309000_05.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 마스터실린더 바디 1.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "브레이크 페달",
+    "path": "archive/8708309000_06.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 브레이크 페달.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "주차 브레이크 장치",
+    "path": "archive/8708309000_07.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 주차 브레이크 장치.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "유니언",
+    "path": "archive/8708309000_08.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 유니언 2.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "주차 브레이크 레버",
+    "path": "archive/8708309000_09.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 주차 브레이크 레버.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "에어 디스크 브레이크",
+    "path": "archive/8708309000_10.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 에어 디스크 브레이크.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "브레이크 디스크",
+    "path": "archive/8708309000_11.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 브레이크 디스크.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "브레이크 라이닝 및 슈",
+    "path": "archive/8708309000_12.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 브레이크 라이닝 및 슈.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "브레이크 스트럿",
+    "path": "archive/8708309000_13.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 브레이크 스트럿 2.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "주차 브레이크 케이블",
+    "path": "archive/8708309000_14.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 주차 브레이크 케이블.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708309000",
+    "label": "마스터실린더 피스톤",
+    "path": "archive/8708309000_15.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708309000 기타 마스터실린더 피스톤.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "라디에이터 서지탱크",
+    "path": "archive/8708999000_01.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 라디에이터 서지탱크.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "부시 2",
+    "path": "archive/8708999000_02.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 부시 2 3.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "추진축",
+    "path": "archive/8708999000_03.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 추진축.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "수소 고압 압력용기",
+    "path": "archive/8708999000_04.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 수소 고압 압력용기.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "연료탱크",
+    "path": "archive/8708999000_05.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 연료탱크 1.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "오일 쿨러",
+    "path": "archive/8708999000_06.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 오일 쿨러.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "전동 액슬",
+    "path": "archive/8708999000_07.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 전동 액슬.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "히트 커버",
+    "path": "archive/8708999000_08.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 히트 커버 3.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "냉각수 출구 피팅",
+    "path": "archive/8708999000_09.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 냉각수 출구 피팅 2.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "연료 리턴 호스",
+    "path": "archive/8708999000_10.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 연료 리턴 호스.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "인터쿨러 출구 호스 및 파이프",
+    "path": "archive/8708999000_11.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 인터쿨러 출구 호스 및 파이프.png",
+    "source": "zip"
+  },
+  {
+    "hscd": "8708999000",
+    "label": "라디에이터 서지탱크 캡",
+    "path": "archive/8708999000_12.jpg",
+    "archive_name": "SKN38_PROJECT1/HS8708999000 기타 라디에이터 서지탱크 캡.png",
+    "source": "zip"
+  }
+]

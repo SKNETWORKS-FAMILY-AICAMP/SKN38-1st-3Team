@@ -14,8 +14,11 @@ import streamlit as st
 from utils.constants import (
     COUNTRY_CODES,
     COUNTRY_ENGLISH,
+)
+from utils.parts_catalog import (
+    HIDDEN_HS_NAMES,
+    HS_OFFICIAL_NAMES,
     ITEMS,
-    PART_DESCRIPTIONS,
     PART_NAMES,
 )
 
@@ -43,14 +46,7 @@ _PART_COEFFICIENTS = {
     "8708999000": (2400, 675, 0.05, 0.04, 9, 0.02),
     "기타": (800, 225, 0.02, 0.04, 9, 0.02),
 }
-_OTHER_HS_CODES = [
-    "8708959000",
-    "8708991010",
-    "8708991020",
-    "8708991030",
-    "8708991040",
-    "8708991050",
-]
+_OTHER_HS_CODES = list(HIDDEN_HS_NAMES)
 _STAT_CODES = [
     "US",
     "CN",
@@ -85,35 +81,8 @@ _MONTH_SHARES = [
 # 2. ERD 원본 표 불러오기
 @st.cache_data
 def load_parts():
-    official_names = {
-        "8708100000": "완충기와 그 부분품",
-        "8708210000": "안전벨트",
-        "8708220000": "전방 윈드스크린, 후방 창문과 그 밖의 창문",
-        "8708290000": "기타(8708.29)",
-        "8708301000": "장착된 브레이크 라이닝",
-        "8708302000": "브레이크 부스터",
-        "8708303000": "전자 제어식 제동장치",
-        "8708309000": "기타(8708.30)",
-        "8708400000": "기어박스와 그 부분품",
-        "8708501000": "차동장치를 갖춘 구동 차축과 그 부분품",
-        "8708502000": "비구동 차축과 그 부분품",
-        "8708700000": "로드 휠과 그 부분품ㆍ부속품",
-        "8708800000": "서스펜션 시스템과 그 부분품",
-        "8708910000": "방열기와 그 부분품",
-        "8708920000": "소음기(머플러), 배기관, 그 부분품",
-        "8708930000": "클러치와 그 부분품",
-        "8708940000": "운전대ㆍ스티어링칼럼ㆍ운전박스와 그 부분품",
-        "8708951000": "에어백",
-        "8708959000": "기타(8708.95)",
-        "8708991010": "제8701호의 것",
-        "8708991020": "제8702호의 것",
-        "8708991030": "제8703호의 것",
-        "8708991040": "제8704호의 것",
-        "8708991050": "제8705호의 것",
-        "8708999000": "기타(8708.99)",
-    }
     rows = []
-    for code, official_name in official_names.items():
+    for code, official_name in HS_OFFICIAL_NAMES.items():
         rows.append({"hsCd": code, "hsKor": official_name, "hsExp": ""})
     return pd.DataFrame(rows, columns=["hsCd", "hsKor", "hsExp"])
 
@@ -308,7 +277,6 @@ def load_dashboard_data():
         "기타",
     )
     joined["부품"] = joined["부품 코드"].map(PART_NAMES)
-    joined["부품 설명"] = joined["부품 코드"].map(PART_DESCRIPTIONS)
     joined["나라"] = joined["statKor"]
     joined["월"] = joined["year"]
     year_parts = joined["year"].str.split(".", expand=True)
@@ -319,18 +287,12 @@ def load_dashboard_data():
     joined["수출중량"] = joined["expwgt"] / 1_000
     joined["수입중량"] = joined["impwgt"] / 1_000
     joined["무역수지"] = joined["balPayments"] / 1_000_000
-    joined["원본 HS코드"] = joined["hsCd"]
-    joined["공식 품명"] = joined["hsKor"]
-
     dashboard_columns = [
         "월",
         "k",
         "부품 코드",
         "부품",
-        "부품 설명",
         "나라",
-        "원본 HS코드",
-        "공식 품명",
         "수출액",
         "수입액",
         "수출중량",
@@ -344,10 +306,7 @@ def load_dashboard_data():
             "k",
             "부품 코드",
             "부품",
-            "부품 설명",
             "나라",
-            "원본 HS코드",
-            "공식 품명",
         ],
         as_index=False,
         sort=False,

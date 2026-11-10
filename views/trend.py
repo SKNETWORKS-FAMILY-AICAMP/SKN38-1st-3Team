@@ -5,15 +5,16 @@ import streamlit as st
 
 from utils.common import (
     aggregate,
+    format_country,
     format_number,
-    filter_controls,
+    period_filter_controls,
     growth,
     header,
     format_metric_value,
     format_signed_total,
     state,
 )
-from utils.constants import MONTHS
+from utils.constants import COUNTRIES, MONTHS
 from utils.data import load_dashboard_data
 
 
@@ -24,18 +25,19 @@ FIRST_AVAILABLE_MONTH_INDEX = 10  # 원본 데이터가 시작하는 2021년 11�
 
 def trend_page():
     # 1. 필터
-    filters = filter_controls(use_country=True)
+    filters = period_filter_controls()
     start = filters["start"]
     end = filters["end"]
-    country = filters["country"]
-    header("01 전체 흐름", "자동차부품 무역수지는 어떻게 변하고 있나?")
-    place = "10개국 전체" if country == "all" else country
-    with st.container(border=True):
-        period_col, country_col = st.columns(2)
-        period_col.caption("기간")
-        period_col.markdown(f"**{MONTHS[start]}–{MONTHS[end]}**")
-        country_col.caption("대상 국가")
-        country_col.markdown(f"**{place}**")
+    header("01 전체 흐름", "자동차 부품 무역수지의 변화")
+    (country_col,) = st.columns(1)
+    with country_col:
+        selected_country = st.selectbox(
+            "대상 국가",
+            ["10개국 전체"] + COUNTRIES,
+            format_func=format_country,
+            key="country",
+        )
+    country = "all" if selected_country == "10개국 전체" else selected_country
 
     # 2. 계산
     data = load_dashboard_data()
@@ -45,7 +47,7 @@ def trend_page():
     previous_export_sum = previous["수출액"].sum()
     previous_import_sum = previous["수입액"].sum()
     balance = current["무역수지"].sum()
-    unit = "백만 달러"
+    unit = "$M"
 
     # 3. 지표 카드
     export_change = growth(export_sum, previous_export_sum)
