@@ -174,27 +174,32 @@ SKN38-1st-3Team/
 ### 7-1. 전체 흐름
 월별 수출입 흐름과 해마다 같은 기간의 무역수지를 보여주는 화면.
 
-![전체 흐름](docs/images/1_trend.png)
+![전체 흐름](docs/images/1.%20trend.png)
 
 ### 7-2. 부품별 무역수지
 범퍼·안전벨트·기어박스를 선택해 월별 수출액·수입액·무역수지와 작년 같은 기간 대비 변화를 비교하는 화면.
 
-![부품별 무역수지](docs/images/2_parts.png)
+![부품별 무역수지](docs/images/2.%20parts.png)
 
 ### 7-3. 나라별 비중
 수출과 수입의 상대국 비중을 비교하는 화면.
 
-![나라별 비중](docs/images/3_markets.png)
+![나라별 비중](docs/images/3.%20markets.png)
 
 ### 7-4. 금액과 중량
 수출액과 수출중량이 함께 움직였는지 비교하는 화면.
 
-![금액과 중량](docs/images/4_volume.png)
+![금액과 중량](docs/images/4.%20volume.png)
 
 ### 7-5. 부품 코드 안내
 자동차 그림의 위치 표시와 부품 목록에서 HS 코드별 부품을 찾고, 상세 모달에서 사진과 설명을 확인하는 화면입니다.
 
-![부품 코드 안내](docs/images/5_codes.png)
+![부품 코드 안내](docs/images/5.%20codes.png)
+
+### 7-6. FAQ
+
+![부품 코드 안내](docs/images/6.%20faq.png)
+
 
 <br>
 
