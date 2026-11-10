@@ -84,11 +84,6 @@ def aggregate(start, end, item_code="all", country="all"):
 def header(eyebrow, question):
     st.caption(eyebrow)
     st.title(question)
-    st.info(
-        "가상 데이터 · 화면 설계 검토용이며 관세청·한국은행 통계와 "
-        "연결되어 있지 않습니다. 상대국 10개국 합계이며 "
-        "한국 전체 수출입이 아닙니다."
-    )
 
 
 def filter_controls(use_item=False, use_country=False):

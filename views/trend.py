@@ -29,6 +29,13 @@ def trend_page():
     end = filters["end"]
     country = filters["country"]
     header("01 전체 흐름", "자동차부품 무역수지는 어떻게 변하고 있나?")
+    place = "10개국 전체" if country == "all" else country
+    with st.container(border=True):
+        period_col, country_col = st.columns(2)
+        period_col.caption("기간")
+        period_col.markdown(f"**{MONTHS[start]}–{MONTHS[end]}**")
+        country_col.caption("대상 국가")
+        country_col.markdown(f"**{place}**")
 
     # 2. 계산
     data = load_dashboard_data()
@@ -52,31 +59,30 @@ def trend_page():
     )
     first, second, third = st.columns(3)
     first.metric(
-        f"{MONTHS[start]}–{MONTHS[end]} 수출액 ({unit})",
-        format_number(export_sum),
+        "수출액",
+        f"{format_number(export_sum)} {unit}",
         export_delta,
-        delta_color="off",
+        delta_color="normal",
         border=True,
     )
     second.metric(
-        f"{MONTHS[start]}–{MONTHS[end]} 수입액 ({unit})",
-        format_number(import_sum),
+        "수입액",
+        f"{format_number(import_sum)} {unit}",
         import_delta,
-        delta_color="off",
+        delta_color="normal",
         border=True,
     )
     third.metric(
-        f"{MONTHS[start]}–{MONTHS[end]} 무역수지 ({unit})",
-        format_signed_total(balance),
+        "무역수지",
+        f"{format_signed_total(balance)} {unit}",
         balance_delta,
-        delta_color="off",
+        delta_color="normal",
         border=True,
     )
 
     # 4. 차트
     st.subheader("월별 수출액과 수입액")
-    place = "10개국 전체" if country == "all" else country
-    st.caption(f"{place} · {unit} · 음영 = 선택한 기간")
+    st.caption(f"{unit} · 음영 = 선택한 기간")
     if country == "all":
         timeline = data
     else:
