@@ -20,7 +20,7 @@ def _image_data_uri(path):
 
 
 def _build_guide_html():
-    manifest = json.loads(MANIFEST_PATH.read_text())
+    manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
     zip_images = {}
     for row in manifest:
         row["image"] = _image_data_uri(ASSET_DIR / row["path"])
