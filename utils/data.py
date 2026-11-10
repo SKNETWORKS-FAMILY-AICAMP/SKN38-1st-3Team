@@ -25,6 +25,7 @@ def _query(sql, params=()):
         "password": os.environ.get("DB_PASSWORD") or secrets.get("password"),
         "database": os.environ.get("DB_NAME") or secrets.get("database", "mysql_streamlit_app"),
         "connection_timeout": 10,
+        # "auth_plugin": "mysql_native_password"
     }
     if not settings["password"]:
         st.error("프로젝트 루트의 .env에 DB_PASSWORD를 설정하세요.")
