@@ -33,7 +33,7 @@
   - 상대국별 수출입 비중 확인
   - 처음 보는 사람도 바로 이해할 수 있는 대시보드 구현
 
-> 현재 저장소의 화면은 **가상 데이터**로 동작합니다. 실제 데이터는 DB 연결 후 반영됩니다.
+> 현재 저장소의 화면은 공통 로더에서 MySQL의 `parts`, `stats`, `trades`를 조회합니다. CSV는 DB 최초 적재에만 사용합니다.
 
 ### 🛠 사용 기술
 
@@ -135,7 +135,7 @@ uv run --python 3.12 --with-requirements requirements.txt streamlit run app.py
 cp .env.example .env
 ```
 
-> DB가 없어도 가상 데이터로 화면을 확인할 수 있습니다. 실제 데이터는 [`utils/data.py`](utils/data.py)의 `load_parts`, `load_stats`, `load_trades` 세 함수를 교체하면 연결됩니다. Streamlit 앱의 접속 정보는 `st.secrets`로 읽습니다.
+> 루트 앱은 `.env`의 `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`을 읽습니다. 기본 DB 이름은 `mysql_streamlit_app`입니다. 먼저 `mysql_streamlit_app/database/build_db.py`로 적재하세요(기존 테이블 재생성 주의). DB 연결 실패 시 CSV나 가상 데이터로 대체하지 않습니다. 캐시는 5분마다 만료됩니다. Streamlit Cloud에서는 `[mysql]` secrets에 host, port, user, password, database를 설정할 수 있습니다.
 >
 > Streamlit Community Cloud의 **Main file path**는 `app.py`입니다.
 
@@ -158,7 +158,7 @@ SKN38-1st-3Team/
 ├── utils/
 │   ├── parts_catalog.py    ← 부품별 화면 이름, 공식 HS 품명, 설명, 위치, 이미지 정보
 │   ├── constants.py        ← 10개국 목록, 기간, 용어
-│   ├── data.py             ← ERD 표 불러오기 (지금은 가상 데이터)
+│   ├── data.py             ← MySQL 조회 및 화면용 변환
 │   └── common.py           ← 필터, 기간 집계, 증감률, 숫자 표시 형식
 └── docs/images/            ← ERD, 화면 캡처
 ```
