@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from utils.constants import COUNTRIES, ITEMS, MONTHS
+from utils.constants import COUNTRY_FLAGS, MONTHS
 from utils.data import load_dashboard_data
 
 
@@ -86,48 +86,56 @@ def header(eyebrow, question):
     st.title(question)
 
 
-def filter_controls(use_item=False, use_country=False):
-    start_month = st.sidebar.selectbox(
-        "기간 · 부터", MONTHS, index=MONTHS.index("2026.01"), key="start"
-    )
-    end_month = st.sidebar.selectbox(
-        "까지", MONTHS, index=MONTHS.index("2026.09"), key="end"
-    )
-    start = MONTHS.index(start_month)
-    end = MONTHS.index(end_month)
+def format_country(country):
+    if country == "10개국 전체":
+        return f"🌐 {country}"
+    return f"{COUNTRY_FLAGS[country]} {country}"
+
+
+def _normalize_period_selection():
+    start = MONTHS.index(st.session_state["start"])
+    end = MONTHS.index(st.session_state["end"])
     notice = ""
 
     if start > end:
         end = start
         notice = "시작 월이 끝 월보다 늦어 끝 월을 시작 월로 맞췄습니다."
-    if end - start > 11:
-        end = start + 11
+    elif end - start > 11:
+        end = min(start + 11, len(MONTHS) - 1)
         notice = (
             "기간은 최대 12개월입니다. 끝 월을 시작 월부터 "
             "12개월째로 조정했습니다."
         )
+
+    st.session_state["end"] = MONTHS[end]
+    st.session_state["period_filter_notice"] = notice
+
+
+def period_filter_controls():
+    if "start" in st.session_state and "end" in st.session_state:
+        saved_start = MONTHS.index(st.session_state["start"])
+        saved_end = MONTHS.index(st.session_state["end"])
+        if saved_start > saved_end or saved_end - saved_start > 11:
+            _normalize_period_selection()
+
+    start_month = st.sidebar.selectbox(
+        "기간 · 부터",
+        MONTHS,
+        index=MONTHS.index("2026.01"),
+        key="start",
+        on_change=_normalize_period_selection,
+    )
+    end_month = st.sidebar.selectbox(
+        "까지",
+        MONTHS,
+        index=MONTHS.index("2026.09"),
+        key="end",
+        on_change=_normalize_period_selection,
+    )
+    start = MONTHS.index(start_month)
+    end = MONTHS.index(end_month)
+    notice = st.session_state.pop("period_filter_notice", "")
     if notice:
         st.sidebar.warning(notice)
 
-    item_code = "all"
-    country = "all"
-    if use_item:
-        item_labels = {"자동차부품 전체": "all"}
-        item_labels.update(
-            {f"{name} ({code})": code for code, name in ITEMS}
-        )
-        selected_item = st.sidebar.selectbox("부품", list(item_labels), key="item")
-        item_code = item_labels[selected_item]
-    if use_country:
-        selected_country = st.sidebar.selectbox(
-            "상대국", ["10개국 전체"] + COUNTRIES, key="country"
-        )
-        if selected_country != "10개국 전체":
-            country = selected_country
-
-    return {
-        "start": start,
-        "end": end,
-        "item_code": item_code,
-        "country": country,
-    }
+    return {"start": start, "end": end}

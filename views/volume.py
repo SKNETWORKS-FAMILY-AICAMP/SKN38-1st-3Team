@@ -4,14 +4,16 @@ import streamlit as st
 
 from utils.common import (
     aggregate,
-    filter_controls,
+    format_country,
+    period_filter_controls,
     format_number,
     format_percent_value,
     growth,
     header,
     format_metric_value,
 )
-from utils.constants import ITEMS, MONTHS
+from utils.constants import COUNTRIES, MONTHS
+from utils.parts_catalog import ITEMS
 
 
 def calculate_export_metrics(current, previous):
@@ -36,15 +38,27 @@ def calculate_export_metrics(current, previous):
 
 def volume_page():
     # 1. 필터
-    filters = filter_controls(use_item=True, use_country=True)
+    filters = period_filter_controls()
     start = filters["start"]
     end = filters["end"]
-    item_code = filters["item_code"]
-    country = filters["country"]
     header(
         "03 금액과 중량",
         "수출액이 늘어난 만큼 수출 물량(중량)도 늘었나?",
     )
+    item_labels = {"자동차부품 전체": "all"}
+    item_labels.update({f"{name} ({code})": code for code, name in ITEMS})
+    item_col, country_col = st.columns(2)
+    with item_col:
+        selected_item = st.selectbox("부품", list(item_labels), key="item")
+    with country_col:
+        selected_country = st.selectbox(
+            "상대국",
+            ["10개국 전체"] + COUNTRIES,
+            format_func=format_country,
+            key="country",
+        )
+    item_code = item_labels[selected_item]
+    country = "all" if selected_country == "10개국 전체" else selected_country
 
     # 2. 계산
     current, previous = aggregate(start, end, item_code, country)
@@ -65,21 +79,21 @@ def volume_page():
         f"{MONTHS[start]}–{MONTHS[end]} 수출액 증감률",
         f"{format_metric_value(export_growth)}%",
         export_delta,
-        delta_color="off",
+        delta_color="normal",
         border=True,
     )
     second.metric(
         f"{MONTHS[start]}–{MONTHS[end]} 수출중량 증감률",
         f"{format_metric_value(weight_growth)}%",
         weight_delta,
-        delta_color="off",
+        delta_color="normal",
         border=True,
     )
     third.metric(
         "kg당 수출액",
         f"{unit_value:.2f} 달러/kg",
         unit_delta,
-        delta_color="off",
+        delta_color="normal",
         border=True,
     )
     st.caption(
