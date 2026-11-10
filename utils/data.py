@@ -27,7 +27,7 @@ def _query(sql, params=()):
         "connection_timeout": 10,
     }
     if not settings["password"]:
-        st.error("프로젝트 루트의 .env에 DB_PASSWORD를 설정하세요.")
+        st.error("로컬에서는 프로젝트 루트 .env의 DB_PASSWORD를, Streamlit Cloud에서는 [mysql] Secrets를 설정하세요.")
         st.stop()
     try:
         conn = mysql.connector.connect(**settings)
@@ -38,7 +38,7 @@ def _query(sql, params=()):
         finally:
             conn.close()
     except mysql.connector.Error:
-        st.error("MySQL에 연결하거나 조회하지 못했습니다. .env 설정과 DB 적재 여부를 확인하세요.")
+        st.error("MySQL에 연결하거나 조회하지 못했습니다. 접속 정보(.env 또는 [mysql] Secrets), 외부 접속 허용, DB 적재 여부를 확인하세요.")
         st.stop()
 
 

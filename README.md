@@ -43,7 +43,7 @@
 | 데이터 수집 | 관세청 OpenAPI (공공데이터포털) |
 | 데이터 처리 | ![pandas](https://img.shields.io/badge/pandas-150458?style=flat-square&logo=pandas&logoColor=white) |
 | 시각화 / 웹 | ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white) · `Altair` |
-| 환경 관리 | `uv` · `.env` 기반 DB·API 키 분리 |
+| 환경 관리 | `uv` · `.env` 기반 DB 접속 설정 |
 
 <br>
 
@@ -127,17 +127,50 @@
 
 ## 6. 실행 방법
 
-```bash
-# 1) 대시보드 실행 (Python 3.12, 패키지 자동 설치)
-uv run --python 3.12 --with-requirements requirements.txt streamlit run app.py
+### 로컬 실행
 
-# 2) (DB 연결 시) 환경변수 설정 — .env.example을 복사해 값을 입력
+Python 3.12, `uv`, MySQL 8.0 이상이 필요합니다. 먼저 프로젝트 루트에서 환경변수 파일을 만들고 MySQL 접속 정보를 입력합니다.
+
+```bash
 cp .env.example .env
+# .env의 DB_PASSWORD를 로컬 MySQL 비밀번호로 수정
 ```
 
-> 루트 앱은 `.env`의 `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`을 읽습니다. 기본 DB 이름은 `mysql_streamlit_app`입니다. 먼저 `mysql_streamlit_app/database/build_db.py`로 적재하세요(기존 테이블 재생성 주의). DB 연결 실패 시 CSV나 가상 데이터로 대체하지 않습니다. 캐시는 5분마다 만료됩니다. Streamlit Cloud에서는 `[mysql]` secrets에 host, port, user, password, database를 설정할 수 있습니다.
->
-> Streamlit Community Cloud의 **Main file path**는 `app.py`입니다.
+처음 실행할 때는 CSV 데이터를 MySQL에 적재합니다. `build_db.py`는 `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`를 사용하고 `mysql_streamlit_app` 데이터베이스를 만듭니다. **기존 테이블을 삭제하고 다시 만들기 때문에 비어 있는 전용 데이터베이스에서만 실행하세요.**
+
+```bash
+uv run --env-file .env --python 3.12 --with-requirements requirements.txt \
+  python mysql_streamlit_app/database/build_db.py
+```
+
+적재가 끝나면 대시보드를 실행합니다. `.env.example`의 기본 DB 이름은 `mysql_streamlit_app`입니다.
+
+```bash
+uv run --env-file .env --python 3.12 --with-requirements requirements.txt \
+  streamlit run app.py
+```
+
+### Streamlit Community Cloud 배포
+
+Cloud 앱은 개발 PC의 MySQL에 접속할 수 없습니다. 먼저 외부 접속이 가능한 MySQL 8.0 데이터베이스를 준비하고, 호스트·포트와 계정을 발급받으세요. 로컬 PC에서 DB를 초기 적재할 때도 `.env`의 `DB_HOST`를 이 원격 MySQL 주소로 설정합니다. 초기 적재 계정에는 데이터베이스와 테이블을 만들고 데이터를 넣을 권한이 필요합니다. 앱이 실행될 때 사용하는 계정은 `parts`, `stats`, `trades`를 읽을 수 있어야 합니다.
+
+1. `.env.example`을 `.env`로 복사하고 원격 MySQL의 `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`를 입력합니다. `DB_NAME`은 `mysql_streamlit_app`으로 둡니다. 이 파일은 GitHub에 올리지 않습니다.
+2. 위의 초기 적재 명령을 실행합니다. 이 스크립트는 기존 `mysql_streamlit_app`의 세 테이블을 재생성하므로, 운영 중인 DB가 아니라 배포용 전용 데이터베이스에서 한 번만 실행하세요.
+3. Streamlit Community Cloud에서 **Create app**을 선택하고 이 GitHub 저장소와 배포할 브랜치를 지정합니다. **Main file path**는 `app.py`입니다.
+4. **Advanced settings → Secrets**에 아래 형식을 붙여 넣고 실제 원격 DB 값으로 바꿉니다. 비밀번호와 DB 주소가 든 Secrets는 GitHub에 커밋하지 않습니다.
+
+```toml
+[mysql]
+host = "원격-MySQL-호스트"
+port = 3306
+user = "대시보드-DB-사용자"
+password = "DB-비밀번호"
+database = "mysql_streamlit_app"
+```
+
+5. 저장 후 배포를 시작합니다. 코드는 우선 환경변수 `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`을 확인하고, 값이 없으면 위 `[mysql]` Secrets를 사용합니다. 배포 뒤 연결 오류가 나면 앱 로그와 DB의 외부 접속 허용 설정을 확인하세요.
+
+Community Cloud는 앱 생성 시 저장소·브랜치·진입점 파일을 지정하고 같은 화면의 Advanced settings에서 Secrets를 입력합니다. 자세한 내용은 [앱 배포 안내](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy)와 [Secrets 안내](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/secrets-management)를 참고하세요.
 
 ### 디렉토리 구조
 
