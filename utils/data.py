@@ -25,7 +25,7 @@ def _query(sql, params=()):
         "password": os.environ.get("DB_PASSWORD") or secrets.get("password"),
         "database": os.environ.get("DB_NAME") or secrets.get("database", "mysql_streamlit_app"),
         "connection_timeout": 10,
-        # "auth_plugin": "mysql_native_password"
+        "auth_plugin": "mysql_native_password"
     }
     if not settings["password"]:
         st.error("로컬에서는 프로젝트 루트 .env의 DB_PASSWORD를, Streamlit Cloud에서는 [mysql] Secrets를 설정하세요.")
