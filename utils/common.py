@@ -99,12 +99,11 @@ def _normalize_period_selection():
 
     if start > end:
         end = start
-        notice = "시작 월이 끝 월보다 늦어 끝 월을 시작 월로 맞췄습니다."
+        notice = "시작 월이 끝 월보다 늦습니다."
     elif end - start > 11:
         end = min(start + 11, len(MONTHS) - 1)
         notice = (
-            "기간은 최대 12개월입니다. 끝 월을 시작 월부터 "
-            "12개월째로 조정했습니다."
+            "설정할 수 있는 기간은 최대 12개월입니다."
         )
 
     st.session_state["end"] = MONTHS[end]
