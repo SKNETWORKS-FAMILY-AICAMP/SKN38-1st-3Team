@@ -14,13 +14,19 @@ from utils.common import (
     format_signed_total,
     state,
 )
-from utils.constants import COUNTRIES, MONTHS
+from utils.constants import (
+    COUNTRIES,
+    DATA_FIRST_MONTH,
+    DATA_LAST_MONTH,
+    MONTHS,
+    MONTH_INDEX_BASE_YEAR,
+    month_to_index,
+)
 from utils.data import load_dashboard_data
 
 
 MONTHS_PER_YEAR = 12
-DISPLAY_MONTH_OFFSET = 22  # MONTHS의 첫 항목을 원본 월 인덱스에 맞춘 값
-FIRST_AVAILABLE_MONTH_INDEX = 10  # 원본 데이터가 시작하는 2021년 11월 인덱스
+FIRST_AVAILABLE_MONTH_INDEX = month_to_index(DATA_FIRST_MONTH)
 
 
 def trend_page():
@@ -38,6 +44,7 @@ def trend_page():
             key="country",
         )
     country = "all" if selected_country == "10개국 전체" else selected_country
+    place = "10개국 전체" if country == "all" else country
 
     # 2. 계산
     data = load_dashboard_data()
@@ -54,11 +61,16 @@ def trend_page():
     import_change = growth(import_sum, previous_import_sum)
     previous_balance = previous["무역수지"].sum()
     balance_change = balance - previous_balance
-    export_delta = f"{format_metric_value(export_change)}% (작년 같은 기간 대비)"
-    import_delta = f"{format_metric_value(import_change)}% (작년 같은 기간 대비)"
-    balance_delta = (
-        f"{format_metric_value(balance_change)} · {state(previous_balance, balance)}"
-    )
+    if previous.empty:
+        export_delta = "전년 비교 자료 없음"
+        import_delta = "전년 비교 자료 없음"
+        balance_delta = "전년 비교 자료 없음"
+    else:
+        export_delta = f"{format_metric_value(export_change)}% (작년 같은 기간 대비)"
+        import_delta = f"{format_metric_value(import_change)}% (작년 같은 기간 대비)"
+        balance_delta = (
+            f"{format_metric_value(balance_change)} · {state(previous_balance, balance)}"
+        )
     first, second, third = st.columns(3)
     first.metric(
         "수출액",
@@ -84,23 +96,24 @@ def trend_page():
 
     # 4. 차트
     st.subheader("월별 수출액과 수입액")
-    st.caption(f"{unit} · 음영 = 선택한 기간")
+    st.caption(f"{unit} · 2021년은 11월부터 · 음영 = 선택한 기간")
     if country == "all":
         timeline = data
     else:
         timeline = data[data["나라"] == country]
     monthly = timeline.groupby(["k", "월"])[["수출액", "수입액"]].sum().reset_index()
+    monthly["대상 국가"] = place
     melted = pd.melt(
         monthly,
-        id_vars=["k", "월"],
+        id_vars=["k", "월", "대상 국가"],
         value_vars=["수출액", "수입액"],
         var_name="구분",
         value_name="금액",
     )
     band_data = pd.DataFrame(
         {
-            "시작": [start + DISPLAY_MONTH_OFFSET],
-            "끝": [end + DISPLAY_MONTH_OFFSET],
+            "시작": [month_to_index(MONTHS[start]) - 0.5],
+            "끝": [month_to_index(MONTHS[end]) + 0.5],
         }
     )
     band = (
@@ -108,17 +121,28 @@ def trend_page():
         .mark_rect(opacity=0.12, color="#1d58b0")
         .encode(x="시작:Q", x2="끝:Q")
     )
+    first_axis_year = int(DATA_FIRST_MONTH[:4])
+    last_axis_year = int(DATA_LAST_MONTH[:4])
+    year_tick_values = [
+        month_to_index(f"{year}.01")
+        for year in range(first_axis_year, last_axis_year + 1)
+    ]
     line = (
         alt.Chart(melted)
-        .mark_line()
+        .mark_line(point=True)
         .encode(
             x=alt.X(
                 "k:Q",
                 axis=alt.Axis(
                     title="연도",
-                    # 월 인덱스의 12개월 간격을 연도 눈금으로 표시한다.
-                    values=[0, 12, 24, 36, 48, 60],
-                    labelExpr="datum.value/12+2021",
+                    values=year_tick_values,
+                    labelExpr=f"datum.value/12+{MONTH_INDEX_BASE_YEAR}",
+                ),
+                scale=alt.Scale(
+                    domain=[
+                        month_to_index(f"{first_axis_year}.01"),
+                        month_to_index(DATA_LAST_MONTH),
+                    ]
                 ),
             ),
             y=alt.Y("금액:Q", title=unit),
@@ -131,29 +155,33 @@ def trend_page():
                 ),
             ),
             tooltip=[
-                "월:N",
-                "구분:N",
-                alt.Tooltip("금액:Q", format=",.1f"),
+                alt.Tooltip("대상 국가:N", title="대상 국가"),
+                alt.Tooltip("월:N", title="월"),
+                alt.Tooltip("구분:N", title="항목"),
+                alt.Tooltip("금액:Q", format=",.1f", title=unit),
             ],
         )
     )
-    st.altair_chart(line + band, width="stretch")
+    st.altair_chart(band + line, width="stretch")
 
     st.subheader("해마다 같은 기간 무역수지")
     st.caption(f"{unit} · 무역수지 = 수출액 − 수입액")
     year_rows = []
     last_year = int(MONTHS[end][:4])
-    for year in range(2022, last_year + 1):
+    first_year = int(DATA_FIRST_MONTH[:4])
+    for year in range(first_year, last_year + 1):
         year_offset = MONTHS_PER_YEAR * (last_year - year)
-        range_start = start + DISPLAY_MONTH_OFFSET - year_offset
-        range_end = end + DISPLAY_MONTH_OFFSET - year_offset
+        range_start = month_to_index(MONTHS[start]) - year_offset
+        range_end = month_to_index(MONTHS[end]) - year_offset
         if range_start < FIRST_AVAILABLE_MONTH_INDEX:
             continue
         year_frame = data[(data["k"] >= range_start) & (data["k"] <= range_end)]
         if country != "all":
             year_frame = year_frame[year_frame["나라"] == country]
         yearly_balance = year_frame["무역수지"].sum()
-        year_rows.append({"연도": str(year), "무역수지": yearly_balance})
+        year_rows.append(
+            {"연도": str(year), "대상 국가": place, "무역수지": yearly_balance}
+        )
     yearly_frame = pd.DataFrame(year_rows)
     bars = (
         alt.Chart(yearly_frame)
@@ -168,7 +196,8 @@ def trend_page():
             ),
             tooltip=[
                 "연도:N",
-                alt.Tooltip("무역수지:Q", format=",.1f"),
+                alt.Tooltip("대상 국가:N", title="대상 국가"),
+                alt.Tooltip("무역수지:Q", format=",.1f", title=unit),
             ],
         )
     )
@@ -179,6 +208,11 @@ def trend_page():
             x="연도:N",
             y="무역수지:Q",
             text=alt.Text("무역수지:Q", format=",.0f"),
+            tooltip=[
+                "연도:N",
+                alt.Tooltip("대상 국가:N", title="대상 국가"),
+                alt.Tooltip("무역수지:Q", format=",.1f", title=unit),
+            ],
         )
     )
     st.altair_chart(bars + labels, width="stretch")

@@ -11,7 +11,7 @@ from utils.common import (
     header,
     period_filter_controls,
 )
-from utils.constants import MONTHS
+from utils.constants import MONTHS, month_to_index
 from utils.parts_catalog import ITEMS
 
 PART_COLORS = [
@@ -87,7 +87,7 @@ def _part_chart(
             .mark_rule(color="#687583")
             .encode(y=alt.Y(f"{metric}:Q", axis=value_axis))
         )
-        chart = chart + zero_line
+        chart = zero_line + chart
     return chart
 
 
@@ -169,7 +169,7 @@ def parts_page():
         monthly = current.groupby("k")[monthly_metrics].sum()
         for month_index in range(start, end + 1):
             month = MONTHS[month_index]
-            month_key = month_index + 22
+            month_key = month_to_index(month)
             month_values = (
                 monthly.loc[month_key] if month_key in monthly.index else None
             )
@@ -193,24 +193,32 @@ def parts_page():
 
         export_sum = current[export_metric].sum()
         import_sum = current[import_metric].sum()
-        previous_export_sum = previous[export_metric].sum()
-        previous_import_sum = previous[import_metric].sum()
+        previous_export_sum = previous[export_metric].sum() if not previous.empty else None
+        previous_import_sum = previous[import_metric].sum() if not previous.empty else None
         table_row = {
             "부품": current_name,
             "코드": code,
             f"{export_title} ({unit})": export_sum,
-            f"{export_title} 차이 ({unit})": export_sum - previous_export_sum,
+            f"{export_title} 차이 ({unit})": (
+                export_sum - previous_export_sum if previous_export_sum is not None else None
+            ),
             f"{export_title} 변화 (%)": growth(export_sum, previous_export_sum),
             f"{import_title} ({unit})": import_sum,
-            f"{import_title} 차이 ({unit})": import_sum - previous_import_sum,
+            f"{import_title} 차이 ({unit})": (
+                import_sum - previous_import_sum if previous_import_sum is not None else None
+            ),
             f"{import_title} 변화 (%)": growth(import_sum, previous_import_sum),
         }
         if show_balance:
             balance_sum = current["무역수지"].sum()
-            previous_balance_sum = previous["무역수지"].sum()
+            previous_balance_sum = (
+                previous["무역수지"].sum() if not previous.empty else None
+            )
             table_row[f"{balance_title} ({unit})"] = balance_sum
             table_row[f"{balance_title} 차이 ({unit})"] = (
                 balance_sum - previous_balance_sum
+                if previous_balance_sum is not None
+                else None
             )
         table_rows.append(table_row)
         part_order.append(current_name)

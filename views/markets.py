@@ -160,6 +160,15 @@ def markets_page():
                     y=alt.Y("나라 표시:N", sort=order, title=None),
                     x=alt.X(f"{share_column}:Q", scale=alt.Scale(domain=share_domain)),
                     text=alt.Text(f"{label_column}:N"),
+                    tooltip=[
+                        alt.Tooltip("나라:N", title="나라"),
+                        alt.Tooltip(f"{share_column}:Q", format=".1f", title="비중 (%)"),
+                        alt.Tooltip(
+                            f"{title} ({unit}):Q",
+                            format=",.1f",
+                            title=f"거래 규모 ({unit})",
+                        ),
+                    ],
                 )
             )
             st.altair_chart((bars + labels).properties(height=340), width="stretch")
@@ -251,6 +260,22 @@ def markets_page():
                         scale=alt.Scale(domain=[-change_limit, change_limit]),
                     ),
                     text=alt.Text(f"{label_column}:N"),
+                    tooltip=[
+                        alt.Tooltip("나라:N", title="나라"),
+                        alt.Tooltip(
+                            f"{start_column}:Q",
+                            format=".1f",
+                            title=f"{MONTHS[start]} 비중 (%)",
+                        ),
+                        alt.Tooltip(
+                            f"{end_column}:Q",
+                            format=".1f",
+                            title=f"{MONTHS[end]} 비중 (%)",
+                        ),
+                        alt.Tooltip(
+                            f"{change_column}:Q", format="+.1f", title="변화 (%p)"
+                        ),
+                    ],
                 )
             )
             negative_labels = (
@@ -263,6 +288,22 @@ def markets_page():
                         scale=alt.Scale(domain=[-change_limit, change_limit]),
                     ),
                     text=alt.Text(f"{label_column}:N"),
+                    tooltip=[
+                        alt.Tooltip("나라:N", title="나라"),
+                        alt.Tooltip(
+                            f"{start_column}:Q",
+                            format=".1f",
+                            title=f"{MONTHS[start]} 비중 (%)",
+                        ),
+                        alt.Tooltip(
+                            f"{end_column}:Q",
+                            format=".1f",
+                            title=f"{MONTHS[end]} 비중 (%)",
+                        ),
+                        alt.Tooltip(
+                            f"{change_column}:Q", format="+.1f", title="변화 (%p)"
+                        ),
+                    ],
                 )
             )
             st.altair_chart(
