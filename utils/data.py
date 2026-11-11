@@ -7,7 +7,7 @@ import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
 
-from utils.constants import COUNTRY_CODES
+from utils.constants import COUNTRY_CODES, month_to_index
 from utils.parts_catalog import ITEMS, PART_NAMES
 
 load_dotenv(Path(__file__).resolve().parents[1] / ".env", override=False)
@@ -87,9 +87,7 @@ def load_dashboard_data():
     joined["부품"] = joined["부품 코드"].map(PART_NAMES)
     joined["나라"] = joined["statKor"]
     joined["월"] = joined["year"]
-    year_parts = joined["year"].str.split(".", expand=True)
-    joined["k"] = (year_parts[0].astype(int) - 2021) * 12
-    joined["k"] += year_parts[1].astype(int) - 1
+    joined["k"] = joined["year"].map(month_to_index)
     joined["수출액"] = joined["expDlr"] / 1_000_000
     joined["수입액"] = joined["impDlr"] / 1_000_000
     joined["수출중량"] = joined["expwgt"] / 1_000

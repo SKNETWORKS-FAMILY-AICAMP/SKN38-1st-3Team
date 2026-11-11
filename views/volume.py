@@ -131,6 +131,8 @@ def volume_page():
             "수출중량 증감률 (%)": "수출중량",
         }
     )
+    melted["대상 국가"] = place
+    melted["기간"] = f"{MONTHS[start]}–{MONTHS[end]}"
     zero_line = (
         alt.Chart(pd.DataFrame({"x": [0]})).mark_rule(color="#687583").encode(x="x:Q")
     )
@@ -154,12 +156,14 @@ def volume_page():
             ),
             tooltip=[
                 "부품:N",
+                alt.Tooltip("대상 국가:N", title="대상 국가"),
+                alt.Tooltip("기간:N", title="기간"),
                 "항목:N",
-                alt.Tooltip("증감률:Q", format="+.1f"),
+                alt.Tooltip("증감률:Q", format="+.1f", title="증감률 (%)"),
             ],
         )
     )
-    st.altair_chart(growth_chart + zero_line, width="stretch")
+    st.altair_chart(zero_line + growth_chart, width="stretch")
 
     # 5. 표
     st.dataframe(

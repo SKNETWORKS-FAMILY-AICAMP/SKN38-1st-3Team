@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from utils.constants import COUNTRY_FLAGS, MONTHS
+from utils.constants import DATA_FIRST_MONTH, COUNTRY_FLAGS, MONTHS, month_to_index
 from utils.data import load_dashboard_data
 
 
@@ -67,10 +67,14 @@ def state(before, now):
 
 def aggregate(start, end, item_code="all", country="all"):
     data = load_dashboard_data()
-    start_k = start + 22
-    end_k = end + 22
+    start_k = month_to_index(MONTHS[start])
+    end_k = month_to_index(MONTHS[end])
     current = data[(data["k"] >= start_k) & (data["k"] <= end_k)]
-    previous = data[(data["k"] >= start_k - 12) & (data["k"] <= end_k - 12)]
+    first_data_k = month_to_index(DATA_FIRST_MONTH)
+    if start_k - 12 < first_data_k:
+        previous = data.iloc[0:0]
+    else:
+        previous = data[(data["k"] >= start_k - 12) & (data["k"] <= end_k - 12)]
 
     if item_code != "all":
         current = current[current["부품 코드"] == item_code]
@@ -111,23 +115,26 @@ def _normalize_period_selection():
 
 
 def period_filter_controls():
-    if "start" in st.session_state and "end" in st.session_state:
-        saved_start = MONTHS.index(st.session_state["start"])
-        saved_end = MONTHS.index(st.session_state["end"])
-        if saved_start > saved_end or saved_end - saved_start > 11:
-            _normalize_period_selection()
+    st.session_state.setdefault("start", "2026.01")
+    st.session_state.setdefault("end", "2026.09")
+    if st.session_state["start"] not in MONTHS:
+        st.session_state["start"] = MONTHS[0]
+    if st.session_state["end"] not in MONTHS:
+        st.session_state["end"] = MONTHS[-1]
+    saved_start = MONTHS.index(st.session_state["start"])
+    saved_end = MONTHS.index(st.session_state["end"])
+    if saved_start > saved_end or saved_end - saved_start > 11:
+        _normalize_period_selection()
 
     start_month = st.sidebar.selectbox(
         "기간 · 부터",
         MONTHS,
-        index=MONTHS.index("2026.01"),
         key="start",
         on_change=_normalize_period_selection,
     )
     end_month = st.sidebar.selectbox(
         "까지",
         MONTHS,
-        index=MONTHS.index("2026.09"),
         key="end",
         on_change=_normalize_period_selection,
     )

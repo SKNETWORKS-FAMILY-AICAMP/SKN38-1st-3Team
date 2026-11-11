@@ -50,7 +50,22 @@ COUNTRY_FLAGS = {
     '베트남': '🇻🇳',
 }
 
-MONTHS = [f"{2021 + k // 12}.{k % 12 + 1:02d}" for k in range(10, 69)]
+MONTH_INDEX_BASE_YEAR = 2021
+DATA_FIRST_MONTH = "2021.11"
+DATA_LAST_MONTH = "2026.09"
+
+
+def month_to_index(month):
+    year, month_number = map(int, month.split("."))
+    return (year - MONTH_INDEX_BASE_YEAR) * 12 + month_number - 1
+
+
+_first_month_index = month_to_index(DATA_FIRST_MONTH)
+_last_month_index = month_to_index(DATA_LAST_MONTH)
+MONTHS = [
+    f"{MONTH_INDEX_BASE_YEAR + index // 12}.{index % 12 + 1:02d}"
+    for index in range(_first_month_index, _last_month_index + 1)
+]
 
 TERMS = [
     (
